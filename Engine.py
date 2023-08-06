@@ -161,28 +161,25 @@ if (file_rentalsByDay != None and file_itemsSoldByBoardwalk != None):
 
     st.write('#')
 
+    primer = pd.merge(rbd,me,'left',on='vendor')
+    primer['cost_per_set'] = ra.cost_per_set[0]
+    primer['tax_rate']     = ra.tax_rate[0]
+
+
     with st.container():
         left, right = st.columns(2)
         left.download_button('Download Billing Summary',bill.to_csv(index=False),'billing_summary.csv',use_container_width=True,)
-        right.write('Summary of Due from Vendors')
+        right.caption('Summary of Due from Vendors')
 
     with st.container():
         left, right = st.columns(2)
         left.download_button('Download MVP Report','','mvp_report.csv',use_container_width=True)
-        right.write('Summary of Due to County')
+        right.caption('[Under Dev] Summary of Due to County')
 
     with st.container():
         left, right = st.columns(2)
-        left.download_button('Download Invoice Primer','','invoices_primer.csv',use_container_width=True)
-        right.write('Data for PDF Invoice Generator')
-
-    # st.dataframe(mvp_accesses,use_container_width=True)
-    # st.download_button('Download MVP Accesses',mvp_accesses.to_csv(index=False),'mvp_accesses.csv',use_container_width=True)
-    # st.dataframe(mvp_due,use_container_width=True)
-    # st.download_button('Download MVP Due',mvp_due.to_csv(index=False),'mvp_due.csv',use_container_width=True)
-    # st.dataframe(mvp_vendors,use_container_width=True)
-    # st.download_button('Download MVP Vendors',mvp_vendors.to_csv(),'mvp_vendors.csv',use_container_width=True)
-
+        left.download_button('Download Invoice Primer',primer.to_csv(index=False),'invoices_primer.csv',use_container_width=True)
+        right.caption('Data for PDF Invoice Generator')
 
     st.divider()
 
