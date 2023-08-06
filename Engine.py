@@ -17,7 +17,9 @@ st.set_page_config(
 with st.sidebar:
     st.subheader('Helpful links')
     st.write('[PDF Invoice Generator](https://docs.google.com/spreadsheets/d/1CfQOeo0zu0CzKz82enqDYb5Q8nZqKWjUQce5Lv1us3s/edit?usp=sharing)')
-    st.write('[Change Requests](https://docs.google.com/spreadsheets/d/1x3WQ4YGpgHL2lCgy2x6RIBA2G9dgRH0DswLMoaqysbQ/edit?usp=sharing)')
+    st.write('[Vendor Change Requests](https://docs.google.com/spreadsheets/d/1x3WQ4YGpgHL2lCgy2x6RIBA2G9dgRH0DswLMoaqysbQ/edit?usp=sharing)')
+    st.write('[Vendor Submissions](https://swbsa-rental.integrasoft.net/Login.aspx)')
+    st.write('[Walkup Orders](https://manage.beachyapp.com/login/)')
 
 
 st.caption('SOUTH WALTON BEACH SERVICE ASSOSICATION')
@@ -43,13 +45,13 @@ st.divider()
 st.header('Required Reports')
 st.write('Rentals by Day')
 with st.expander('How to pull the report'):
-    st.write('https://swbsa-rental.integrasoft.net/Login.aspx')
+    st.write('[integraRental | Vendor Submissions](https://swbsa-rental.integrasoft.net/Login.aspx)')
     st.info('Pull from January 1 through December 31.')
     st.video('https://youtu.be/2BMCv0ygLbg')
 
 st.write('Items Sold by Boardwalk')
 with st.expander('How to pull the report'):
-    st.write('https://manage.beachyapp.com/login/')
+    st.write('[Beachy | Walkup Orders](https://manage.beachyapp.com/login/)')
     st.info('Pull for the same dates as the billing period.')
     st.video('https://youtu.be/9_ThbDwzceo')
 
@@ -180,6 +182,10 @@ if (file_rentalsByDay != None and file_itemsSoldByBoardwalk != None):
         left, right = st.columns(2)
         left.download_button('Download Invoice Primer',primer.to_csv(index=False),'invoices_primer.csv',use_container_width=True)
         right.caption('Data for PDF Invoice Generator')
+
+        with st.expander('How to use the Invoice Primer'):
+            st.write('[PDF Invoice Generator](https://docs.google.com/spreadsheets/d/1CfQOeo0zu0CzKz82enqDYb5Q8nZqKWjUQce5Lv1us3s/edit?usp=sharing)')
+            st.video('https://youtu.be/xgDyIc86YFo')
 
     st.divider()
 
