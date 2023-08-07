@@ -186,6 +186,10 @@ if (file_rentalsByDay != None and file_itemsSoldByBoardwalk != None):
         with st.expander('How to use the Invoice Primer'):
             st.write('[PDF Invoice Generator](https://docs.google.com/spreadsheets/d/1CfQOeo0zu0CzKz82enqDYb5Q8nZqKWjUQce5Lv1us3s/edit?usp=sharing)')
             st.video('https://youtu.be/xgDyIc86YFo')
+    
+    # st.download_button('Download MVP Accesses',mvp_accesses.to_csv(index=False),'mvp_accesses.csv',use_container_width=True)
+    # st.download_button('Download MVP Vendors',mvp_vendors.to_csv(),'mvp_vendors.csv',use_container_width=True)
+    # st.download_button('Download MVP Due',mvp_due.to_csv(index=False),'mvp_due.csv',use_container_width=True)
 
     st.divider()
 
