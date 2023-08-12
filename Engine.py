@@ -67,6 +67,7 @@ if file_itemsSoldByBoardwalk is not None:
 if (file_rentalsByDay != None and file_itemsSoldByBoardwalk != None):
 
     st.divider()
+    st.write('##')
     st.header('Billing Metrics')
 
     st.write(start.date(), ' - ', end.date())
@@ -160,7 +161,7 @@ if (file_rentalsByDay != None and file_itemsSoldByBoardwalk != None):
     middle.metric('Walkup Sets', round(np.sum(mvp.sets_walkups)))
     right.metric('Due to County', round(np.sum(mvp_due.county)))
 
-    st.write('#')
+    st.write('&nbsp;')
 
     primer = pd.merge(rbd,me,'left',on='vendor')
     primer['cost_per_set'] = ra.cost_per_set[0]
@@ -263,7 +264,7 @@ if (file_rentalsByDay != None and file_itemsSoldByBoardwalk != None):
     st.download_button('Download Invoice CSVs',csv_io,'invoices_csv.zip',use_container_width=True)
 
     for vendor in vendors:
-        st.write('#')
+        st.write('&nbsp;')
         st.subheader(vendor)
         st.dataframe(rbd[rbd.vendor == vendor],use_container_width=True)
         st.download_button('Download ' + vendor + '.csv',rbd[rbd.vendor == vendor].to_csv(index=False),vendor+'.csv',use_container_width=True)
