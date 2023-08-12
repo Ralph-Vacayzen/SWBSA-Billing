@@ -246,7 +246,7 @@ if (file_rentalsByDay != None and file_itemsSoldByBoardwalk != None):
 
         with st.expander('How to use the Invoice Primer'):
             st.write('[PDF Invoice Generator](https://docs.google.com/spreadsheets/d/1CfQOeo0zu0CzKz82enqDYb5Q8nZqKWjUQce5Lv1us3s/edit?usp=sharing)')
-            st.video('https://youtu.be/xgDyIc86YFo')
+            st.video('https://youtu.be/nLg-LfQm_g8')
     
 
     st.divider()
