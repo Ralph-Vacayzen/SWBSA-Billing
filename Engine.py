@@ -5,7 +5,6 @@ import numpy as np
 from io import StringIO
 from io import BytesIO
 from zipfile import ZipFile
-from streamlit.components.v1 import html
 
 
 st.set_page_config(
@@ -166,30 +165,89 @@ if (file_rentalsByDay != None and file_itemsSoldByBoardwalk != None):
     primer = pd.merge(rbd,me,'left',on='vendor')
     primer['cost_per_set'] = ra.cost_per_set[0]
     primer['tax_rate']     = ra.tax_rate[0]
+    
+    # st.download_button('Download MVP Accesses',mvp_accesses.to_csv(index=False),'mvp_accesses.csv',use_container_width=True)
+    # st.download_button('Download MVP Vendors',mvp_vendors.to_csv(),'mvp_vendors.csv',use_container_width=True)
+    # st.download_button('Download MVP Due',mvp_due.to_csv(index=False),'mvp_due.csv',use_container_width=True)
+
+    # MVP REPORT
+    
+    mvpr = [
+        [start.month_name().upper(),'ORDERS','','WALKUPS','','','DATES REPORTING ON:',start.date(),end.date()],
+        ['ACCESS','SETS','COUNTY','SETS','COUNTY','','','','']
+        ]
+
+    def AddAccessesToMVPReport(row):
+        mvpr.append([row.access,row.sets_orders,row.county_orders,row.sets_walkups,row.county_walkups,'','','',''])
+
+    mvp_accesses = mvp_accesses.reset_index()
+    mvp_accesses.apply(AddAccessesToMVPReport, axis=1)
+
+    mvpr[2][6] = 'SUMMARY OF TOTALS'
+    mvpr[3][6] = 'TYPE'
+    mvpr[3][7] = 'SETS'
+    mvpr[3][8] = 'COUNTY'
+
+    counter_row = 4
+    counter_column = 6
+
+    def AddDueToMVPReport(row):
+        global counter_row
+        global counter_column
+
+        mvpr[counter_row][counter_column]     = row.type
+        mvpr[counter_row][counter_column + 1] = row.sets
+        mvpr[counter_row][counter_column + 2] = row.county
+
+        counter_row = counter_row + 1
+
+    mvp_due = mvp_due.rename(columns={'orders':'ORDERS','walkups':'WALKUPS'})
+    mvp_due = mvp_due.append(mvp_due.sum(numeric_only=True), ignore_index=True).fillna('')
+    mvp_due.apply(AddDueToMVPReport, axis=1)
+
+    mvpr[8][6] = 'VENDOR MONTHLY PERCENTAGES'
+    mvpr[9][6] = 'VENDOR'
+    mvpr[9][7] = 'MONTH'
+    mvpr[9][8] = 'PERCENTAGE'
+
+    counter_row = 10
+    counter_column = 6
+
+    def AddVendorsToMVPReport(row):
+        global counter_row
+        global counter_column
+
+        mvpr[counter_row][counter_column]     = row.vendor
+        mvpr[counter_row][counter_column + 1] = row.month.upper()
+        mvpr[counter_row][counter_column + 2] = row.percentage
+
+        counter_row = counter_row + 1
+    
+    mvp_vendors = mvp_vendors.reset_index()
+    mvp_vendors.apply(AddVendorsToMVPReport, axis=1)
+
+    mvpr = pd.DataFrame(mvpr)
 
 
     with st.container():
         left, right = st.columns(2)
         left.download_button('Download Billing Summary',bill.to_csv(index=False),'billing_summary.csv',use_container_width=True,)
-        right.caption('Summary of Due from Vendors')
+        right.caption('Summary of **Due from Vendors**')
 
     with st.container():
         left, right = st.columns(2)
-        left.download_button('Download MVP Report','','mvp_report.csv',use_container_width=True)
-        right.caption('[Under Dev] Summary of Due to County')
+        left.download_button('Download MVP Report',mvpr.to_csv(index=False,header=False),'mvp_report.csv',use_container_width=True)
+        right.caption('Summary of **Due to County**')
 
     with st.container():
         left, right = st.columns(2)
         left.download_button('Download Invoice Primer',primer.to_csv(index=False),'invoices_primer.csv',use_container_width=True)
-        right.caption('Data for PDF Invoice Generator')
+        right.caption('Data for **PDF Invoice Generator**')
 
         with st.expander('How to use the Invoice Primer'):
             st.write('[PDF Invoice Generator](https://docs.google.com/spreadsheets/d/1CfQOeo0zu0CzKz82enqDYb5Q8nZqKWjUQce5Lv1us3s/edit?usp=sharing)')
             st.video('https://youtu.be/xgDyIc86YFo')
     
-    # st.download_button('Download MVP Accesses',mvp_accesses.to_csv(index=False),'mvp_accesses.csv',use_container_width=True)
-    # st.download_button('Download MVP Vendors',mvp_vendors.to_csv(),'mvp_vendors.csv',use_container_width=True)
-    # st.download_button('Download MVP Due',mvp_due.to_csv(index=False),'mvp_due.csv',use_container_width=True)
 
     st.divider()
 
