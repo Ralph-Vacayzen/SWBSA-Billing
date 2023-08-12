@@ -184,6 +184,12 @@ if (file_rentalsByDay != None and file_itemsSoldByBoardwalk != None):
     mvp_accesses = mvp_accesses.reset_index()
     mvp_accesses.apply(AddAccessesToMVPReport, axis=1)
 
+    if (10+len(mvp_vendors) > 2+len(mvp_accesses)):
+        needed_rows = (10+len(mvp_vendors)) - (2+len(mvp_accesses))
+
+        for _ in range(needed_rows):
+            mvpr.append(['','','','','','','','',''])
+
     mvpr[2][6] = 'SUMMARY OF TOTALS'
     mvpr[3][6] = 'TYPE'
     mvpr[3][7] = 'SETS'
