@@ -137,7 +137,7 @@ if (file_rentalsByDay != None and file_itemsSoldByBoardwalk != None):
 
 
     mvp_due = pd.DataFrame()
-    mvp_due['type']   = ['orders','walkups']
+    mvp_due['type']   = ['ORDERS','WALKUPS']
     mvp_due['sets']   = [np.sum(mvp.sets_orders),np.sum(mvp.sets_walkups)]
     mvp_due['county'] = [np.sum(mvp.county_orders),np.sum(mvp.county_walkups)]
 
@@ -201,8 +201,7 @@ if (file_rentalsByDay != None and file_itemsSoldByBoardwalk != None):
 
         counter_row = counter_row + 1
 
-    mvp_due = mvp_due.rename(columns={'orders':'ORDERS','walkups':'WALKUPS'})
-    mvp_due = mvp_due.append(mvp_due.sum(numeric_only=True), ignore_index=True).fillna('')
+    mvp_due = pd.concat([mvp_due,pd.DataFrame.from_records([{'type':'','sets':np.sum(mvp_due.sets),'county':np.sum(mvp_due.county)}])], ignore_index=True).fillna('')
     mvp_due.apply(AddDueToMVPReport, axis=1)
 
     mvpr[8][6] = 'VENDOR MONTHLY PERCENTAGES'
