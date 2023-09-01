@@ -16,6 +16,7 @@ st.set_page_config(
 with st.sidebar:
     st.subheader('Helpful links')
     st.write('[PDF Invoice Generator](https://docs.google.com/spreadsheets/d/1CfQOeo0zu0CzKz82enqDYb5Q8nZqKWjUQce5Lv1us3s/edit?usp=sharing)')
+    st.write('[MVP Report Archive](https://docs.google.com/spreadsheets/d/1_QXM-TsMnBSngdpdeKYz5VAP7kew4DWePmmXAIF2XJQ/edit?usp=sharing)')
     st.write('[Vendor Change Requests](https://docs.google.com/spreadsheets/d/1x3WQ4YGpgHL2lCgy2x6RIBA2G9dgRH0DswLMoaqysbQ/edit?usp=sharing)')
     st.write('[Vendor Submissions](https://swbsa-rental.integrasoft.net/Login.aspx)')
     st.write('[Walkup Orders](https://manage.beachyapp.com/login/)')
