@@ -92,15 +92,23 @@ if (file_rentalsByDay != None and file_itemsSoldByBoardwalk != None):
     def AdjustDateToPeriodEnd(date):
         if date > end: return end
         else: return date
+    
+    def upper_case_vendor(row):
+        return str(row.vendor).upper()
 
     rbd.start    = rbd.start.apply(AdjustDateToPeriodStart)
     rbd.end      = rbd.end.apply(AdjustDateToPeriodEnd)
     rbd.duration = (rbd.end - rbd.start).dt.days + 1
     rbd.set_days = rbd.quantity * rbd.duration
+    rbd.vendor   = rbd.apply(upper_case_vendor, axis=1)
 
     ba = pd.read_csv('settings/accesses.csv', index_col=False)
     me = pd.read_csv('settings/members.csv',  index_col=False)
     ra = pd.read_csv('settings/rates.csv',    index_col=False)
+
+    ba        = ba.sort_values(by='integraRental')
+    me.vendor = me.apply(upper_case_vendor, axis=1)
+    me        = me.sort_values(by='vendor')
 
     bill = rbd.pivot_table(values='set_days',index='vendor',aggfunc=np.sum)
     bill = bill.merge(me, left_on='vendor', right_on='vendor', how='left')
